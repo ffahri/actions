@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build
-      run: go build -mod=vendor main.go -o main
+      run: go build -mod=vendor main.go -o bin
       
     - uses: actions/upload-artifact@v1
       with:
