@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: golang:1.14-alpine
+      volumes:
+        - /artifacts:/artifacts
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -24,10 +26,10 @@ jobs:
     - name: Build
       run: |
         go build -mod=vendor -o binary $GITHUB_WORKSPACE/main.go
-        cp binary $GITHUB_WORKSPACE/bin
+        cp binary /artifacts/
     - uses: actions/upload-artifact@v2-preview
       with:
         name: binary
-        path: $GITHUB_WORKSPACE
-        key: bin
+        path: /artifacts
+        key: binary
 
