@@ -31,11 +31,12 @@ jobs:
         - /artifacts:/artifacts
     steps:        
     - uses: actions/checkout@v2
-    
     - uses: actions/download-artifact@v1
       with:
         name: binary
         path: $GITHUB_WORKSPACE
-      
     - name: Deploy
-      run: terraform apply $GITHUB_WORKSPACE/deploy/main.tf
+      working-directory: $GITHUB_WORKSPACE/deploy
+      run: |
+        terraform init
+        terraform apply
