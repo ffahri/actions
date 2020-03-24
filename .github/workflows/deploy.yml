@@ -17,12 +17,13 @@ jobs:
       run: |
         go build -mod=vendor -o binary $GITHUB_WORKSPACE/main.go
         mkdir /artifacts && cp binary /artifacts/binary
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2-preview
       with:
         name: binary
         path: /artifacts
         key: binary
   deploy-terraform:
+    needs: build
     runs-on: ubuntu-latest
     container:
       image: hashicorp/terraform:light
