@@ -36,7 +36,7 @@ jobs:
         name: binary
         path: $GITHUB_WORKSPACE
     - name: Deploy
-      working-directory: $GITHUB_WORKSPACE/deploy
+      working-directory: ./deploy
       run: |
         terraform init
         terraform apply
