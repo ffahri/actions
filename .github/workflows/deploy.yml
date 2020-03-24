@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: go build -mod=vendor -o $GITHUB_WORKSPACE/bin $GITHUB_WORKSPACE/main.go
       
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2-preview
       with:
         name: binary
         path: $GITHUB_WORKSPACE
