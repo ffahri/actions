@@ -22,8 +22,9 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build
-      run: go build -mod=vendor -o $GITHUB_WORKSPACE/bin $GITHUB_WORKSPACE/main.go
-      
+      run: |
+        go build -mod=vendor -o binary $GITHUB_WORKSPACE/main.go
+        cp binary $GITHUB_WORKSPACE/bin
     - uses: actions/upload-artifact@v2-preview
       with:
         name: binary
