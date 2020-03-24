@@ -27,5 +27,6 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: binary
-        path: $GITHUB_WORKSPACE/bin
+        path: $GITHUB_WORKSPACE
+        key: bin
 
