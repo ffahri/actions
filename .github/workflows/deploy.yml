@@ -26,7 +26,7 @@ jobs:
     - name: Build
       run: |
         go build -mod=vendor -o binary $GITHUB_WORKSPACE/main.go
-        cp binary /artifacts/
+        cp binary /artifacts/binary
     - uses: actions/upload-artifact@v2-preview
       with:
         name: binary
