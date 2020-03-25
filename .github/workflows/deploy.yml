@@ -45,4 +45,4 @@ jobs:
       working-directory: ./deploy
       run: |
         terraform init
-        terraform apply
+        terraform apply -input=false
