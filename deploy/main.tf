@@ -2,30 +2,11 @@ provider "aws" {
   version = "~> 2.0"
   region  = "eu-central-1"
 }
-resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_lambda"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
 ### EXACT EXAMPLE FROM https://www.terraform.io/docs/providers/aws/r/lambda_function.html
 resource "aws_lambda_function" "github_actions_lambda" {
   filename      = "lambda.zip"
   function_name = "lambda_function_name"
-  role          = aws_iam_role.iam_for_lambda.arn
+  role          = var.role_arn
   handler       = "main"
 
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
