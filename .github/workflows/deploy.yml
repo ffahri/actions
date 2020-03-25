@@ -35,6 +35,9 @@ jobs:
       with:
         name: binary
         path: $GITHUB_WORKSPACE
+    - uses: montudor/action-zip@v0.1.0
+      with:
+        args: zip -qq ./deploy/lambda.zip ./binary
     - name: Deploy
       working-directory: ./deploy
       run: |
