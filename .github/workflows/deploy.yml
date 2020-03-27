@@ -15,12 +15,11 @@ jobs:
     - uses: actions/checkout@v2  
     
     - name: Build
-      run: |
-        go build -mod=vendor -o binary main.go
+      run: GOOS=linux go build -mod=vendor -o main main.go
     
     - uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./deploy/lambda.zip . -i binary
+        args: zip -qq -r ./deploy/lambda.zip . -i main
     
     - uses: actions/upload-artifact@v2-preview
       with:
