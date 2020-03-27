@@ -6,44 +6,39 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: golang:1.14-alpine
-      volumes:
-        - /artifacts:/artifacts
+    
     steps:
-    - uses: actions/checkout@v2
-
+    - uses: actions/setup-go@v2-beta
+      with:
+        stable: 'true'
+        go-version: '1.14'
+      
+    - uses: actions/checkout@v2  
+    
     - name: Build
       run: |
-        go build -mod=vendor -o binary $GITHUB_WORKSPACE/main.go
-        mkdir /artifacts && cp binary /artifacts/binary
-    - uses: actions/upload-artifact@v2-preview
-      with:
-        name: binary
-        path: /artifacts
-        key: binary
-  deploy-terraform:
-    needs: build
-    runs-on: ubuntu-latest
-    container:
-      image: hashicorp/terraform:light
-      volumes:
-        - /artifacts:/artifacts
-    steps:        
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@v1
-      with:
-        name: binary
-        path: $GITHUB_WORKSPACE
+        go build -mod=vendor -o binary main.go
+    
     - uses: montudor/action-zip@v0.1.0
       with:
         args: zip -qq -r ./deploy/lambda.zip . -i binary
-    - name: Deploy
+    
+    - uses: actions/upload-artifact@v2-preview
+      with:
+        name: lambda-zip
+        path: /deploy/lambda.zip
+        key: lambda.zip
+    
+    - name: 'Terraform Apply'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: ${{ env.tf_version }}
+        tf_actions_subcommand: 'apply'
+        tf_actions_working_dir: ${{ env.tf_working_dir }}
+        tf_actions_comment: false
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        TF_VAR_role_arn: ${{ secrets.TF_VAR_role_arn }}
-      working-directory: ./deploy
-      run: |
-        terraform init
-        terraform apply -auto-approve
+        TF_VAR_role_arn: ${{ secrets.TF_VAR_role_arn }}    
+    
+   
