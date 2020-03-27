@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:Failed to unzip Terraform 
+    steps: 
     - uses: actions/setup-go@v2-beta
       with:
         stable: 'true'
