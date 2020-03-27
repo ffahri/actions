@@ -25,7 +25,7 @@ jobs:
     - uses: actions/upload-artifact@v2-preview
       with:
         name: lambda-zip
-        path: $GITHUB_WORKSPACE/deploy/lambda.zip
+        path: deploy/lambda.zip
         key: lambda.zip
     
     - name: 'Terraform Apply'
@@ -33,7 +33,7 @@ jobs:
       with:
         tf_actions_version: 1.12
         tf_actions_subcommand: 'apply'
-        tf_actions_working_dir: $GITHUB_WORKSPACE/deploy
+        tf_actions_working_dir: deploy
         tf_actions_comment: false
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
