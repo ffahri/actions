@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
+    steps:Failed to unzip Terraform 
     - uses: actions/setup-go@v2-beta
       with:
         stable: 'true'
@@ -27,11 +27,19 @@ jobs:
         name: lambda-zip
         path: deploy/lambda.zip
         key: lambda.zip
-    
+     
+    - name: 'Terraform Init'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.24
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: deploy
+        tf_actions_comment: false
+              
     - name: 'Terraform Apply'
       uses: hashicorp/terraform-github-actions@master
       with:
-        tf_actions_version: 1.12
+        tf_actions_version: 0.12.12
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: deploy
         tf_actions_comment: false
